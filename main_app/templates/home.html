@@ -12,14 +12,33 @@
 </head>
 <body>
     <h1>Wacky Widgets</h1>
-    <h3>No Widgets Exists</h3>
+    {% if widget_list|length == 0 %}
+    <h3>No Widgets Exist yet!</h3>
+    {% else %}
+    <table class="pure-table pure-table-striped">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in widget_list %}
+        <tr>
+            <td>{{item.description}}</td>
+            <td>{{item.quantity}}</td>
+            <td><a href="{% url 'remove_widget' item.id %}">X</a></td>
+        </tr>
+        {% endfor%}
+        </tbody>
+    </table>
+    {% endif %}
     <hr>
-    <h4>Add Widgets</h4>
-    <form action="" method="POST" class="pure-form">
-        Description:
-        <input type="text" name="description"><br><br>
-        Quantity:
-        <input type="text" name="quantity"><br><br>
+    <h4>Add Widget</h4>
+    <form action="{% url 'create_widget' %}" method="POST" class="pure-form">
+        {% csrf_token %}
+        {{ widget_form.as_p }}
         <input type="submit" value="ADD WIDGET" class="pure-button">
     </form>
 </body>

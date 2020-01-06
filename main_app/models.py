@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Widget(models.Model):
@@ -7,3 +8,6 @@ class Widget(models.Model):
 
     def __str__(self):
         return f'{self.description}'
+
+    def get_absolute_url(self):
+        return reverse('home', kwargs={'pk': self.id})
